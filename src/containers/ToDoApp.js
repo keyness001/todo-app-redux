@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ListItem from '../components/ListItem';
 import AddItem from '../components/AddItem';
+import Filter from '../components/Filter';
+
 
 class ToDoApp extends Component {
 
@@ -12,6 +14,7 @@ class ToDoApp extends Component {
           <AddItem />
         </div>
         <ListItem />
+        <Filter />
       </div>
     );
   }

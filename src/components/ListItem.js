@@ -3,6 +3,17 @@ import Item from './Item';
 import {fetchTodos} from '../actions/index';
 import {connect} from 'react-redux';
 
+const getVisibleTodos = (todos, filter) => {
+  switch (filter) {
+    case 'SHOW_ALL':
+      return todos
+    case 'SHOW_COMPLETED':
+      return todos.filter(t => t.completed)
+    case 'SHOW_ACTIVE':
+      return todos.filter(t => !t.completed)
+  }
+}
+
 class ListItem extends Component {
   constructor(props){
     super(props);
@@ -15,8 +26,8 @@ class ListItem extends Component {
 
   renderItem = () => {
     return(
-      this.props.all.map((text, idx) => {
-        return <Item key={idx} name={text} id={idx}/>;
+      this.props.todos.map((obj, idx) => {
+        return <Item key={idx} name={obj.text} checked={obj.completed} id={idx}/>;
       }, this)
     );
   }
@@ -31,7 +42,9 @@ class ListItem extends Component {
 }
 
 function mapStateToProps(state){
-  return {all: state.todos.all};
+  return {
+    todos: getVisibleTodos(state.todos.all, state.todos.filter)
+  }
 }
 
 export default connect(mapStateToProps, {fetchTodos} )(ListItem);
